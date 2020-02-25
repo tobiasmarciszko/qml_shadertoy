@@ -1,10 +1,10 @@
-import QtQuick 2.14
-import QtQuick.Window 2.14
+import QtQuick 2.12
+import QtQuick.Window 2.12
 
 Window {
     visible: true
-    width: 640
-    height: 480
+    width: 320
+    height: 240
     title: qsTr("Hello Shader!")
 
     ShaderEffect {
@@ -19,11 +19,11 @@ Window {
 
         // simulate time (seconds since shader started)
         Timer {
-            interval: 1000;
+            interval: 10;
             running: true;
             repeat: true
             onTriggered: {
-                shader.u_time = shader.u_time + 1.0;
+                shader.u_time = shader.u_time + 0.01;
             }
         }
 
