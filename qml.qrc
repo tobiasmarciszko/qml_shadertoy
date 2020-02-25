@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file alias="shader">fragmentshader.frag</file>
+    </qresource>
+</RCC>
