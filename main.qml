@@ -53,12 +53,9 @@ Window {
 
     View3D {
             id: view
-            x: root.width/2
-            width: root.width/2
-            height: root.height
-
+            anchors.fill: parent
             environment: SceneEnvironment {
-                clearColor: "skyblue"
+                clearColor: "black"
                 backgroundMode: SceneEnvironment.Color
                 multisampleAAMode: SceneEnvironment.X4
             }
@@ -103,8 +100,10 @@ Window {
             }
 
             PerspectiveCamera {
+                id: camera
                 position: Qt.vector3d(0, 200, -250)
                 rotation: Qt.vector3d(30, 0, 0)
+
             }
 
             DirectionalLight {
@@ -118,26 +117,30 @@ Window {
                 materials: material
             }
 
-            MouseArea {
-                id: mouseArea
+            WasdController {
                 anchors.fill: parent
-
-                property real initialMouseX: 0
-                property real initialMouseY: 0
-
-                onMouseXChanged: {
-                    let delta = initialMouseX - mouse.x
-                    cubeModel.rotation.y += delta
-                    initialMouseX = mouse.x
-                }
-
-                onMouseYChanged: {
-                    let delta = initialMouseY - mouse.y
-                    cubeModel.rotation.x -= delta
-                    initialMouseY = mouse.y
-                }
-
+                controlledObject: camera
             }
+//            MouseArea {
+//                id: mouseArea
+//                anchors.fill: parent
+
+//                property real initialMouseX: 0
+//                property real initialMouseY: 0
+
+//                onMouseXChanged: {
+//                    let delta = initialMouseX - mouse.x
+//                    cubeModel.rotation.y += delta
+//                    initialMouseX = mouse.x
+//                }
+
+//                onMouseYChanged: {
+//                    let delta = initialMouseY - mouse.y
+//                    cubeModel.rotation.x -= delta
+//                    initialMouseY = mouse.y
+//                }
+
+//            }
         }
 
 }
