@@ -3,6 +3,7 @@ import QtQuick 2.14
 
 import QtQuick3D 1.14
 import QtQuick3D.Materials 1.14
+import QtQuick3D.Helpers 1.14
 
 Window {
     id: root
@@ -59,6 +60,10 @@ Window {
             environment: SceneEnvironment {
                 clearColor: "skyblue"
                 backgroundMode: SceneEnvironment.Color
+                multisampleAAMode: SceneEnvironment.X4
+            }
+
+            AxisHelper {
             }
 
             CustomMaterial {
@@ -73,7 +78,7 @@ Window {
                 shaderInfo: ShaderInfo {
                     version: "330"
                     type: "GLSL"
-                    // shaderKey: ShaderInfo.Glossy
+                    shaderKey: ShaderInfo.Glossy
                 }
 
                 Shader {
@@ -98,7 +103,7 @@ Window {
             }
 
             PerspectiveCamera {
-                position: Qt.vector3d(0, 200, -300)
+                position: Qt.vector3d(0, 200, -250)
                 rotation: Qt.vector3d(30, 0, 0)
             }
 
@@ -107,48 +112,38 @@ Window {
             }
 
             Model {
-                position: Qt.vector3d(0, -200, 0)
-                source: "#Cylinder"
-                scale: Qt.vector3d(2, 0.2, 1)
-                materials: [ DefaultMaterial {
-                        diffuseColor: "red"
-                    }
-                ]
+                id: cubeModel
+                position: Qt.vector3d(0, 110, -50)
+                source: "#Cube"
+                materials: material
             }
 
-            Model {
-                position: Qt.vector3d(0, 150, 0)
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
 
-                source: "#Cube"
+                property real initialMouseX: 0
+                property real initialMouseY: 0
 
-                materials: material
-
-
-                SequentialAnimation on rotation {
-                          loops: Animation.Infinite
-                          PropertyAnimation {
-                              duration: 5000
-                              to: Qt.vector3d(0, 360, 0)
-                              from: Qt.vector3d(0, 0, 0)
-                          }
-                      }
-
-                SequentialAnimation on y {
-                    loops: Animation.Infinite
-                    NumberAnimation {
-                        duration: 3000
-                        to: -150
-                        from: 150
-                        easing.type:Easing.InQuad
-                    }
-                    NumberAnimation {
-                        duration: 3000
-                        to: 150
-                        from: -150
-                        easing.type:Easing.OutQuad
-                    }
+                onMouseXChanged: {
+                    let delta = initialMouseX - mouse.x
+                    cubeModel.rotation.y += delta
+                    initialMouseX = mouse.x
                 }
+
+                onMouseYChanged: {
+                    let delta = initialMouseY - mouse.y
+                    cubeModel.rotation.x -= delta
+                    initialMouseY = mouse.y
+                }
+
             }
         }
 
 }
+
+/*##^##
+Designer {
+    D{i:0;3d-view:false}
+}
+##^##*/
